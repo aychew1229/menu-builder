@@ -29,8 +29,6 @@
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--ink);
-      color: var(--paper);
       font-family: 'DM Sans', sans-serif;
       font-size: 15px;
       line-height: 1.6;
@@ -38,18 +36,28 @@
       overflow-x: hidden;
     }
 
-    body::before {
+    /* ══════════════════════════════════════
+       BUILDER MODE BODY
+    ══════════════════════════════════════ */
+    body.builder-mode {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    body.builder-mode::before {
       content: '';
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       background-size: 200px;
     }
 
-    /* ════════════════════════════════════════
-       BUILDER MODE
-    ════════════════════════════════════════ */
-    #builderView { display: block; }
-    #customerView { display: none; }
+    /* ══════════════════════════════════════
+       CUSTOMER MODE BODY
+    ══════════════════════════════════════ */
+    body.customer-mode {
+      background: var(--paper);
+      color: var(--ink);
+    }
 
     /* ── Header ── */
     .site-header {
@@ -233,7 +241,7 @@
     }
     .phone-screen::-webkit-scrollbar { display: none; }
 
-    /* ── Shared menu UI (used in both preview and customer view) ── */
+    /* ── Shared menu UI ── */
     .menu-header {
       background: linear-gradient(160deg, var(--rust) 0%, #5c1309 100%);
       padding: 44px 16px 22px; text-align: center; position: relative; overflow: hidden;
@@ -319,9 +327,7 @@
     ════════════════════════════════════════ */
     #customerView {
       min-height: 100vh;
-      background: var(--paper);
-      color: var(--ink);
-      display: none;
+      display: flex;
       flex-direction: column;
     }
 
@@ -392,7 +398,7 @@
       letter-spacing: 0.04em;
     }
 
-    /* "Create Your Own" CTA at the bottom */
+    /* "Create Your Own" CTA */
     .cv-cta {
       max-width: 560px; width: 100%; margin: 0 auto;
       padding: 24px 20px 48px;
@@ -412,7 +418,7 @@
     .cv-cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.3); }
 
     /* ════════════════════════════════════════
-       RESPONSIVE — MOBILE (builder)
+       RESPONSIVE
     ════════════════════════════════════════ */
     @media (max-width: 860px) {
       .workspace { grid-template-columns: 1fr; padding: 0 16px; }
@@ -448,7 +454,7 @@
   <!-- ══════════════════════════════════
        BUILDER VIEW
   ══════════════════════════════════ -->
-  <div id="builderView">
+  <div id="builderView" style="display:none;">
 
     <header class="site-header">
       <div class="brand">
@@ -565,19 +571,16 @@
   <!-- ══════════════════════════════════
        CUSTOMER VIEW (shown after scan)
   ══════════════════════════════════ -->
-  <div id="customerView">
+  <div id="customerView" style="display:none;">
 
-    <!-- Header with restaurant name -->
     <div class="cv-header">
       <div class="cv-name" id="cvName"></div>
       <div class="cv-divider"></div>
       <div class="cv-tagline">የዋጋ ዝርዝር · Menu &amp; Prices</div>
     </div>
 
-    <!-- Menu items -->
     <div class="cv-body" id="cvBody"></div>
 
-    <!-- Motto + Bank -->
     <div class="cv-footer">
       <div class="cv-motto" id="cvMotto"></div>
       <div id="cvBankWrap" style="display:none;">
@@ -585,7 +588,6 @@
       </div>
     </div>
 
-    <!-- Create Your Own CTA -->
     <div class="cv-cta">
       <div class="cv-cta-label">POWERED BY MENUCRAFT ETHIOPIA</div>
       <a class="cv-cta-btn" id="cvCtaBtn" href="#">
@@ -597,7 +599,6 @@
 
 
   <script>
-    /* ── helpers ── */
     function $(id){ return document.getElementById(id); }
 
     /* ══════════════════════════════
@@ -630,7 +631,7 @@
       $('prevName').textContent = name !== '' ? name : 'የእርስዎ ሬስቶራንት';
       $('prevMotto').textContent = $('restMotto').value;
       const b = $('restBank').value.trim();
-      $('prevBank').textContent = b ? 'CBE: ' + b : '';
+      $('prevBank').textContent = b ? '🏦 CBE: ' + b : '';
 
       const cats   = document.querySelectorAll('.item-cat');
       const titles = document.querySelectorAll('.item-title');
@@ -671,10 +672,12 @@
       const qrEl = $('qrcode');
       qrEl.innerHTML = '';
 
+      const bankVal = $('restBank').value.trim();
+
       const state = {
         n: $('restName').value,
         m: $('restMotto').value,
-        b: $('restBank').value,
+        b: bankVal,      /* always included, even if empty string */
         i: []
       };
 
@@ -723,26 +726,30 @@
        CUSTOMER VIEW — render menu
     ══════════════════════════════ */
     function renderCustomerView(data){
-      /* hide builder, show customer view */
+      /* Switch body class for correct background/colors */
+      document.body.classList.add('customer-mode');
+
+      /* Show ONLY customer view — hide everything else */
       $('builderView').style.display  = 'none';
       $('customerView').style.display = 'flex';
+
       document.title = (data.n || 'Menu') + ' — MenuCraft Ethiopia';
 
-      /* name */
+      /* Restaurant name */
       $('cvName').textContent = data.n || 'የእርስዎ ሬስቶራንት';
 
-      /* motto */
+      /* Motto */
       $('cvMotto').textContent = data.m || '';
 
-      /* bank */
-      const bankEl = $('cvBank');
-      const bankWrap = $('cvBankWrap');
+      /* Bank account — show if present */
       if(data.b && data.b.trim()){
-        bankEl.textContent = '🏦 CBE: ' + data.b.trim();
-        bankWrap.style.display = 'block';
+        $('cvBank').textContent = '🏦 CBE: ' + data.b.trim();
+        $('cvBankWrap').style.display = 'block';
+      } else {
+        $('cvBankWrap').style.display = 'none';
       }
 
-      /* items */
+      /* Group items by category */
       const map = {};
       (data.i || []).forEach(item => {
         const cat = item[0] === 1 ? 'ምግቦች' : 'መጠጦች';
@@ -773,7 +780,7 @@
     }
 
     /* ══════════════════════════════
-       INIT
+       INIT — decide which view
     ══════════════════════════════ */
     window.onload = function(){
       const p = new URLSearchParams(window.location.search).get('menu');
@@ -784,11 +791,15 @@
           renderCustomerView(data);
         } catch(e){
           console.error('Menu parse error:', e);
-          /* fallback: just show builder */
+          /* fallback: show builder */
+          document.body.classList.add('builder-mode');
+          $('builderView').style.display = 'block';
           updatePreview();
         }
       } else {
         /* ── BUILDER MODE ── */
+        document.body.classList.add('builder-mode');
+        $('builderView').style.display = 'block';
         updatePreview();
       }
     };
