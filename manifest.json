@@ -1,0 +1,16 @@
+{
+  "name": "MenuCraft Ethiopia",
+  "short_name": "MenuCraft",
+  "description": "Digital Menu & QR Builder for Ethiopian Restaurants",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#faf7f2",
+  "theme_color": "#8b2e0f",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3408/3408473.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
