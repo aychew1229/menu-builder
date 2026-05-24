@@ -38,13 +38,18 @@
       overflow-x: hidden;
     }
 
-    /* grain overlay */
     body::before {
       content: '';
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       background-size: 200px;
     }
+
+    /* ════════════════════════════════════════
+       BUILDER MODE
+    ════════════════════════════════════════ */
+    #builderView { display: block; }
+    #customerView { display: none; }
 
     /* ── Header ── */
     .site-header {
@@ -53,152 +58,96 @@
       padding: 16px 24px;
       border-bottom: 1px solid var(--border);
     }
-
     .brand { display: flex; align-items: center; gap: 10px; }
-
     .brand-icon {
       width: 36px; height: 36px; border-radius: 8px; font-size: 17px;
       background: linear-gradient(135deg, var(--gold), var(--rust));
       display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
-
-    .brand-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px; font-weight: 700; color: var(--paper);
-    }
+    .brand-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--paper); }
     .brand-name span { color: var(--gold); }
-
     .header-badge {
       font-size: 10px; font-weight: 500; letter-spacing: 0.12em;
       text-transform: uppercase; color: var(--gold);
-      border: 1px solid var(--border); padding: 4px 12px; border-radius: 100px;
-      white-space: nowrap;
+      border: 1px solid var(--border); padding: 4px 12px; border-radius: 100px; white-space: nowrap;
     }
 
     /* ── Hero ── */
-    .hero {
-      position: relative; z-index: 1;
-      text-align: center; padding: 52px 20px 36px;
-    }
-
+    .hero { position: relative; z-index: 1; text-align: center; padding: 52px 20px 36px; }
     .hero-eyebrow {
       display: inline-block; font-size: 10px; font-weight: 600;
-      letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 14px;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px;
     }
-
     .hero h1 {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(36px, 7vw, 76px);
       font-weight: 300; line-height: 1.1; color: var(--paper); margin-bottom: 16px;
     }
     .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero-sub { max-width: 500px; margin: 0 auto; color: var(--muted); font-size: 14px; line-height: 1.8; }
 
-    .hero-sub {
-      max-width: 500px; margin: 0 auto;
-      color: var(--muted); font-size: 14px; line-height: 1.8;
-    }
-
-    /* ── Workspace: two cols on desktop, single col on mobile ── */
+    /* ── Workspace ── */
     .workspace {
       position: relative; z-index: 1;
-      display: grid;
-      grid-template-columns: 1fr 380px;
-      gap: 0;
-      max-width: 1240px;
-      margin: 0 auto 40px;
-      padding: 0 20px;
-      align-items: start;
+      display: grid; grid-template-columns: 1fr 380px; gap: 0;
+      max-width: 1240px; margin: 0 auto 40px; padding: 0 20px; align-items: start;
     }
-
-    /* ── Builder (left) ── */
     .builder { padding: 32px 32px 32px 0; }
 
     .section-label {
       font-size: 10px; font-weight: 600; letter-spacing: 0.2em;
-      text-transform: uppercase; color: var(--gold);
-      margin-bottom: 16px;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
       display: flex; align-items: center; gap: 10px;
     }
-  .section-label::before {
-      content: ''; flex: 1; height: 1px;
-      background: linear-gradient(to right, var(--border), transparent);
-    }
-  
-    .section-label::after {
-      content: ''; flex: 1; height: 1px;
-      background: linear-gradient(to right, var(--border), transparent);
-    }
+    .section-label::before { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--border)); }
+    .section-label::after  { content: ''; flex: 1; height: 1px; background: linear-gradient(to left,  transparent, var(--border)); }
 
     .card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: var(--r); padding: 22px; margin-bottom: 18px;
-      transition: border-color 0.3s;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--r); padding: 22px; margin-bottom: 18px; transition: border-color 0.3s;
     }
     .card:hover { border-color: var(--border); }
-
     .card-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 18px; font-weight: 600; color: var(--paper);
-      margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+      font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600;
+      color: var(--paper); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
     }
-    .card-title .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink:0; }
+    .card-title .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
 
-    /* Form fields */
     .field { margin-bottom: 14px; }
     .field:last-child { margin-bottom: 0; }
-
     .field label {
       display: block; font-size: 10px; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 6px;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
     }
-
     .field input, .field select {
-      width: 100%; background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
-      padding: 11px 14px; color: var(--paper);
+      width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px; padding: 11px 14px; color: var(--paper);
       font-family: 'DM Sans', sans-serif; font-size: 14px;
       outline: none; -webkit-appearance: none; appearance: none;
       transition: border-color 0.25s, background 0.25s;
     }
     .field input::placeholder { color: rgba(255,255,255,0.25); }
-    .field input:focus, .field select:focus {
-      border-color: var(--gold); background: rgba(200,153,58,0.07);
-    }
+    .field input:focus, .field select:focus { border-color: var(--gold); background: rgba(200,153,58,0.07); }
     .field select option { background: #1a1410; color: var(--paper); }
-
     .fields-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
     /* ── Menu Rows ── */
     .menu-items-wrap { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
-
     .menu-row {
-      display: grid;
-      grid-template-columns: 110px 1fr 84px 34px;
-      gap: 7px; align-items: center;
-      animation: rowIn 0.28s ease;
+      display: grid; grid-template-columns: 110px 1fr 84px 34px;
+      gap: 7px; align-items: center; animation: rowIn 0.28s ease;
     }
+    @keyframes rowIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
 
-    @keyframes rowIn {
-      from { opacity: 0; transform: translateY(-6px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .menu-row select,
-    .menu-row input {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.09); border-radius: 7px;
-      padding: 9px 10px; color: var(--paper);
+    .menu-row select, .menu-row input {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 7px; padding: 9px 10px; color: var(--paper);
       font-family: 'DM Sans', sans-serif; font-size: 13px;
       outline: none; width: 100%; min-width: 0;
       -webkit-appearance: none; appearance: none;
       transition: border-color 0.2s, background 0.2s;
     }
-    .menu-row select:focus, .menu-row input:focus {
-      border-color: var(--gold); background: rgba(200,153,58,0.07);
-    }
+    .menu-row select:focus, .menu-row input:focus { border-color: var(--gold); background: rgba(200,153,58,0.07); }
     .menu-row input::placeholder { color: rgba(255,255,255,0.22); }
     .menu-row select option { background: #1a1410; color: var(--paper); }
 
@@ -218,14 +167,11 @@
       transition: all 0.22s; display: inline-flex;
       align-items: center; justify-content: center; gap: 8px;
     }
-
     .btn-ghost {
-      background: rgba(255,255,255,0.05);
-      border: 1px dashed rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.18);
       color: var(--muted); padding: 10px 18px; font-size: 13px; width: 100%;
     }
     .btn-ghost:hover { background: rgba(255,255,255,0.09); color: var(--paper); border-color: rgba(255,255,255,0.3); }
-
     .btn-primary {
       background: linear-gradient(135deg, var(--gold) 0%, #a87820 100%);
       color: var(--ink); padding: 15px 24px; font-size: 15px; width: 100%;
@@ -233,7 +179,6 @@
     }
     .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 28px rgba(200,153,58,0.4); }
     .btn-primary:active { transform: translateY(0); }
-
     .btn-sage {
       background: linear-gradient(135deg, var(--sage), #2a4433);
       color: #c8e8d4; padding: 12px 22px; font-size: 14px; width: 100%;
@@ -245,74 +190,50 @@
     .qr-output {
       display: none; margin-top: 18px;
       background: linear-gradient(135deg, rgba(200,153,58,0.08), rgba(139,46,15,0.05));
-      border: 1px solid var(--border); border-radius: var(--r);
-      padding: 28px; text-align: center;
-      animation: fadeUp 0.45s ease;
+      border: 1px solid var(--border); border-radius: var(--r); padding: 28px; text-align: center;
     }
-    .qr-output.visible { display: block; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
+    .qr-output.visible { display: block; animation: fadeUp 0.45s ease; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
     .qr-label {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px; font-weight: 600; margin-bottom: 4px;
+      font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; margin-bottom: 4px;
       background: linear-gradient(90deg, var(--gold), var(--goldlt), var(--gold));
       background-size: 200% auto;
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
       animation: shimmer 4s linear infinite;
     }
     @keyframes shimmer { 0%{background-position:-200% center} 100%{background-position:200% center} }
-
     .qr-sublabel { font-size: 12px; color: var(--muted); margin-bottom: 18px; }
-
     #qrcode {
-      display: inline-block; padding: 12px; background: #fff;
-      border-radius: 10px;
+      display: inline-block; padding: 12px; background: #fff; border-radius: 10px;
       box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 8px 24px rgba(0,0,0,0.4);
     }
 
-    /* ── Preview (right col) ── */
+    /* ── Preview col ── */
     .preview-col {
       padding: 32px 0 32px 24px;
       display: flex; flex-direction: column; align-items: center;
     }
-
     .preview-col .section-label { width: 100%; }
-
-    /* sticky only on desktop */
     .preview-inner {
       position: sticky; top: 20px;
       display: flex; flex-direction: column; align-items: center; width: 100%;
     }
-
-    /* Phone mockup */
     .phone-shell {
-      background: linear-gradient(175deg, #2a2a2a, #111);
-      border-radius: 40px; padding: 12px;
+      background: linear-gradient(175deg, #2a2a2a, #111); border-radius: 40px; padding: 12px;
       box-shadow: 0 0 0 1px #444, 0 24px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
       position: relative; width: 280px; flex-shrink: 0;
     }
-
-    /* notch */
     .phone-shell::before {
-      content: ''; position: absolute; top: 12px; left: 50%;
-      transform: translateX(-50%);
-      width: 70px; height: 20px;
-      background: #111; border-radius: 0 0 12px 12px; z-index: 10;
+      content: ''; position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+      width: 70px; height: 20px; background: #111; border-radius: 0 0 12px 12px; z-index: 10;
     }
-
     .phone-screen {
       background: var(--paper); border-radius: 28px;
-      height: 560px; overflow-y: auto; color: var(--ink);
-      scrollbar-width: none;
+      height: 560px; overflow-y: auto; color: var(--ink); scrollbar-width: none;
     }
     .phone-screen::-webkit-scrollbar { display: none; }
 
-    /* ── Menu preview inside phone ── */
+    /* ── Shared menu UI (used in both preview and customer view) ── */
     .menu-header {
       background: linear-gradient(160deg, var(--rust) 0%, #5c1309 100%);
       padding: 44px 16px 22px; text-align: center; position: relative; overflow: hidden;
@@ -321,7 +242,6 @@
       content: ''; position: absolute; inset: 0;
       background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M20 20v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4z'/%3E%3C/g%3E%3C/svg%3E");
     }
-
     .menu-header-name {
       font-family: 'Cormorant Garamond', serif;
       font-size: 22px; font-weight: 700; color: #fff; line-height: 1.2;
@@ -342,7 +262,6 @@
       margin-bottom: 6px; border-left: 3px solid transparent;
       box-shadow: 0 1px 4px rgba(0,0,0,0.06); gap: 8px;
     }
-
     .prev-item-name { font-size: 12px; font-weight: 500; color: #2a1e14; min-width: 0; word-break: break-word; }
     .prev-item-price {
       font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500;
@@ -364,7 +283,7 @@
       background: var(--cream); padding: 4px 10px; border-radius: 5px; display: inline-block;
     }
 
-    /* ── Features strip (horizontal) ── */
+    /* ── Features strip ── */
     .features-strip {
       position: relative; z-index: 1;
       display: flex; flex-wrap: wrap; gap: 12px 24px;
@@ -372,11 +291,7 @@
       padding: 20px 24px 48px;
       border-top: 1px solid rgba(255,255,255,0.06);
     }
-
-    .feat {
-      display: flex; align-items: center; gap: 7px;
-      font-size: 11px; color: var(--muted); white-space: nowrap;
-    }
+    .feat { display: flex; align-items: center; gap: 7px; font-size: 11px; color: var(--muted); white-space: nowrap; }
     .feat-icon {
       width: 24px; height: 24px; border-radius: 6px; font-size: 12px;
       background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
@@ -388,65 +303,138 @@
       position: fixed; bottom: 24px; left: 50%;
       transform: translateX(-50%) translateY(70px);
       background: var(--panel); border: 1px solid var(--border);
-      color: var(--paper); padding: 11px 22px;
-      border-radius: 100px; font-size: 13px; font-weight: 500;
-      z-index: 100; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
-      pointer-events: none; white-space: nowrap;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      color: var(--paper); padding: 11px 22px; border-radius: 100px;
+      font-size: 13px; font-weight: 500; z-index: 100;
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+      pointer-events: none; white-space: nowrap; box-shadow: 0 8px 32px rgba(0,0,0,0.3);
     }
     .toast.show { transform: translateX(-50%) translateY(0); }
 
-    /* scrollbar */
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: rgba(200,153,58,0.3); border-radius: 10px; }
 
-    /* ═══════════════════════════════════
-       RESPONSIVE — MOBILE
-    ═══════════════════════════════════ */
+    /* ════════════════════════════════════════
+       CUSTOMER VIEW — full page menu
+    ════════════════════════════════════════ */
+    #customerView {
+      min-height: 100vh;
+      background: var(--paper);
+      color: var(--ink);
+      display: none;
+      flex-direction: column;
+    }
+
+    /* Customer header */
+    .cv-header {
+      background: linear-gradient(160deg, var(--rust) 0%, #5c1309 100%);
+      padding: 56px 24px 32px;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .cv-header::before {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M30 30v-6h-3v6h-6v3h6v6h3v-6h6v-3h-6z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    .cv-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 8vw, 52px); font-weight: 700;
+      color: #fff; line-height: 1.15; position: relative; word-break: break-word;
+    }
+    .cv-divider { width: 48px; height: 2px; background: var(--goldlt); margin: 14px auto; border-radius: 2px; }
+    .cv-tagline { font-size: 12px; color: rgba(255,255,255,0.6); letter-spacing: 0.1em; position: relative; }
+
+    /* Menu body */
+    .cv-body {
+      flex: 1;
+      max-width: 560px; width: 100%; margin: 0 auto;
+      padding: 20px 20px 32px;
+    }
+
+    .cv-cat-header { display: flex; align-items: center; gap: 10px; margin: 28px 0 12px; }
+    .cv-cat-line { flex: 1; height: 1px; background: #ddd0be; }
+    .cv-cat-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--rust); white-space: nowrap;
+    }
+
+    .cv-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px; background: #fff; border-radius: 10px;
+      margin-bottom: 8px; gap: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      border-left: 3px solid #f0e0d0;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .cv-item:hover { border-color: var(--rust); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+    .cv-item-name { font-size: 15px; font-weight: 500; color: #1e140c; min-width: 0; word-break: break-word; }
+    .cv-item-price {
+      font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 500;
+      color: var(--rust); background: #fff5f0;
+      padding: 4px 12px; border-radius: 24px; border: 1px solid #f0d5c8;
+      white-space: nowrap; flex-shrink: 0;
+    }
+
+    /* Footer */
+    .cv-footer {
+      max-width: 560px; width: 100%; margin: 0 auto;
+      padding: 20px 20px 12px;
+      border-top: 1px dashed #d0c4b0;
+      text-align: center;
+    }
+    .cv-motto {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: 17px; color: var(--sage); margin-bottom: 10px;
+    }
+    .cv-bank {
+      font-family: 'DM Mono', monospace; font-size: 11px; color: #7a6d5d;
+      background: var(--cream); padding: 6px 16px; border-radius: 8px;
+      display: inline-block; border: 1px solid #e0d5c0;
+      letter-spacing: 0.04em;
+    }
+
+    /* "Create Your Own" CTA at the bottom */
+    .cv-cta {
+      max-width: 560px; width: 100%; margin: 0 auto;
+      padding: 24px 20px 48px;
+      text-align: center;
+    }
+    .cv-cta-label { font-size: 11px; color: #aaa; letter-spacing: 0.08em; margin-bottom: 12px; }
+    .cv-cta-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--ink), #2a1e10);
+      color: var(--gold); border: 1px solid var(--border);
+      padding: 13px 28px; border-radius: 100px;
+      font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600;
+      text-decoration: none; letter-spacing: 0.04em;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cv-cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.3); }
+
+    /* ════════════════════════════════════════
+       RESPONSIVE — MOBILE (builder)
+    ════════════════════════════════════════ */
     @media (max-width: 860px) {
-      /* stack cols */
-      .workspace {
-        grid-template-columns: 1fr;
-        padding: 0 16px;
-      }
-
-      /* builder takes full width with no right padding */
+      .workspace { grid-template-columns: 1fr; padding: 0 16px; }
       .builder { padding: 24px 0 0 0; }
-
-      /* preview col: full width, centred, NOT sticky */
-      .preview-col {
-        padding: 24px 0 0 0;
-        order: -1; /* show preview ABOVE builder on mobile */
-      }
-      .preview-inner {
-        position: static;
-        align-items: center;
-      }
-
-      /* scale phone to fit narrow screens */
+      .preview-col { padding: 24px 0 0 0; order: -1; }
+      .preview-inner { position: static; align-items: center; }
       .phone-shell { width: min(280px, 88vw); }
-
-      /* menu row: stack category on its own line */
       .menu-row {
         grid-template-columns: 1fr 34px;
-        grid-template-rows: auto auto;
+        grid-template-rows: auto auto auto;
         row-gap: 6px;
       }
-      .menu-row select   { grid-column: 1 / 2; grid-row: 1; }
-      .menu-row .item-title { grid-column: 1 / 2; grid-row: 2; }
-      .menu-row .item-cost  { grid-column: 1 / 2; grid-row: 3; }
+      .menu-row select        { grid-column: 1; grid-row: 1; }
+      .menu-row .item-title   { grid-column: 1; grid-row: 2; }
+      .menu-row .item-cost    { grid-column: 1; grid-row: 3; }
       .menu-row .btn-remove-row { grid-column: 2; grid-row: 1; align-self: start; }
-
-      /* two-col fields row becomes single col */
       .fields-row { grid-template-columns: 1fr; }
-
       .hero { padding: 36px 16px 24px; }
       .site-header { padding: 14px 16px; }
       .header-badge { display: none; }
       .features-strip { padding: 16px 16px 36px; gap: 10px 16px; }
     }
-
     @media (max-width: 400px) {
       .phone-shell { width: 92vw; }
       .phone-screen { height: 480px; }
@@ -457,130 +445,164 @@
 
   <div class="toast" id="toast">✅ Done!</div>
 
-  <!-- Header -->
-  <header class="site-header">
-    <div class="brand">
-      <div class="brand-icon">🍽</div>
-      <div class="brand-name">Menu<span>Craft</span> Ethiopia</div>
-    </div>
-    <div class="header-badge">Free · Serverless · Private</div>
-  </header>
+  <!-- ══════════════════════════════════
+       BUILDER VIEW
+  ══════════════════════════════════ -->
+  <div id="builderView">
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-eyebrow">✦ Digital Menu Builder ✦</div>
-    <h1>Your Menu,<br><em>Beautifully Encoded</em></h1>
-    <p class="hero-sub">Create a stunning digital menu and print a QR code. <br> Your data lives inside the QR code itself.</p>
-  </section>
+    <header class="site-header">
+      <div class="brand">
+        <div class="brand-icon">🍽</div>
+        <div class="brand-name">Menu<span>Craft</span> Ethiopia</div>
+      </div>
+      <div class="header-badge">Free · Serverless · Private</div>
+    </header>
 
-  <!-- Workspace -->
-  <main class="workspace">
+    <section class="hero">
+      <div class="hero-eyebrow">✦ Digital Menu Builder ✦</div>
+      <h1>Your Menu,<br><em>Beautifully Encoded</em></h1>
+      <p class="hero-sub">Create a stunning digital menu and print a QR code. Your data lives inside the QR code itself.</p>
+    </section>
 
-    <!-- LEFT: Builder -->
-    <div class="builder">
+    <main class="workspace">
 
-      <div class="section-label">01 — Restaurant Details</div>
-      <div class="card">
-        <div class="card-title"><span class="dot"></span>Identity</div>
-        <div class="field">
-          <label>Restaurant Name (የሬስቶራንቱ ስም)</label>
-          <input type="text" id="restName" placeholder="e.g. ጣፋጭ ምግብ ቤት" value="የእርስዎ ሬስቶራንት" />
-        </div>
-        <div class="fields-row">
+      <!-- Left: Builder -->
+      <div class="builder">
+
+        <div class="section-label">01 — Restaurant Details</div>
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>Identity</div>
           <div class="field">
-            <label>Slogan / (መሪ ቃል)</label>
-            <input type="text" id="restMotto" placeholder="Your tagline..." value="ጥራታችን መለያችን ነው!" />
+            <label>Restaurant Name (የሬስቶራንቱ ስም)</label>
+            <input type="text" id="restName" placeholder="e.g. ጣፋጭ ምግብ ቤት" value="የእርስዎ ሬስቶራንት" />
           </div>
-          <div class="field">
-            <label>CBE Account No.</label>
-            <input type="text" id="restBank" placeholder="Please enter your CBE account number" value="" />
+          <div class="fields-row">
+            <div class="field">
+              <label>Slogan / (መሪ ቃል)</label>
+              <input type="text" id="restMotto" placeholder="Your tagline..." value="ጥራታችን መለያችን ነው!" />
+            </div>
+            <div class="field">
+              <label>CBE Account No.</label>
+              <input type="text" id="restBank" placeholder="Enter CBE account number" value="" />
+            </div>
+          </div>
+        </div>
+
+        <div class="section-label">02 — Menu Items</div>
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>Food &amp; Drinks</div>
+          <div class="menu-items-wrap" id="itemsContainer">
+            <div class="menu-row">
+              <select class="item-cat"><option value="ምግቦች">🍲 Food</option><option value="መጠጦች">☕ Drink</option></select>
+              <input type="text"   class="item-title" placeholder="Item name" value="ክትፎ" />
+              <input type="number" class="item-cost"  placeholder="Price"     value="150" />
+              <button class="btn-remove-row" onclick="removeRow(this)">✕</button>
+            </div>
+            <div class="menu-row">
+              <select class="item-cat"><option value="ምግቦች">🍲 Food</option><option value="መጠጦች">☕ Drink</option></select>
+              <input type="text"   class="item-title" placeholder="Item name" value="ሽሮ" />
+              <input type="number" class="item-cost"  placeholder="Price"     value="90" />
+              <button class="btn-remove-row" onclick="removeRow(this)">✕</button>
+            </div>
+            <div class="menu-row">
+              <select class="item-cat"><option value="ምግቦች">🍲 Food</option><option value="መጠጦች" selected>☕ Drink</option></select>
+              <input type="text"   class="item-title" placeholder="Item name" value="ቡና" />
+              <input type="number" class="item-cost"  placeholder="Price"     value="35" />
+              <button class="btn-remove-row" onclick="removeRow(this)">✕</button>
+            </div>
+          </div>
+          <button class="btn btn-ghost" onclick="addRow()">＋ &nbsp;Add Item</button>
+        </div>
+
+        <div class="section-label">03 — Generate QR</div>
+        <button class="btn btn-primary" onclick="generateMenuQR()">⚡ &nbsp;Generate QR Code</button>
+
+        <div class="qr-output" id="qrOutputSection">
+          <div class="qr-label">Your QR Code is Ready!</div>
+          <div class="qr-sublabel">Print &amp; place on your table. Customers scan → menu appears.</div>
+          <div id="qrcode"></div>
+          <div style="margin-top:16px;">
+            <button class="btn btn-sage" onclick="downloadQRCode()">💾 &nbsp;Download PNG</button>
+          </div>
+        </div>
+
+      </div><!-- /builder -->
+
+      <!-- Right: Preview -->
+      <div class="preview-col">
+        <div class="section-label">Live Preview</div>
+        <div class="preview-inner">
+          <div class="phone-shell">
+            <div class="phone-screen">
+              <div class="menu-header">
+                <div class="menu-header-name" id="prevName">የእርስዎ ሬስቶራንት</div>
+                <div class="menu-header-divider"></div>
+                <div class="menu-header-tagline">የዋጋ ዝርዝር · Menu &amp; Prices</div>
+              </div>
+              <div class="preview-body" id="previewBody"></div>
+              <div class="menu-footer-preview">
+                <div class="footer-motto" id="prevMotto">ጥራታችን መለያችን ነው!</div>
+                <div class="footer-bank"  id="prevBank"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="section-label">02 — Menu Items</div>
-      <div class="card">
-        <div class="card-title"><span class="dot"></span>Food &amp; Drinks</div>
+    </main>
 
-        <div class="menu-items-wrap" id="itemsContainer">
-          
-          <div class="menu-row">
-            <select class="item-cat"><option value="ምግቦች">🍲 Food</option><option value="መጠጦች">☕ Drink</option></select>
-            <input type="text"   class="item-title" placeholder="Item name" value="ክትፎ" />
-            <input type="number" class="item-cost"  placeholder="Price"     value="150" />
-            <button class="btn-remove-row" onclick="removeRow(this)">✕</button>
-          </div>
-          <div class="menu-row">
-            <select class="item-cat"><option value="ምግቦች">🍲 Food</option><option value="መጠጦች">☕ Drink</option></select>
-            <input type="text"   class="item-title" placeholder="Item name" value="ሽሮ" />
-            <input type="number" class="item-cost"  placeholder="Price"     value="90" />
-            <button class="btn-remove-row" onclick="removeRow(this)">✕</button>
-          </div>
-          <div class="menu-row">
-            <select class="item-cat"><option value="ምግቦች">🍲 Food</option><option value="መጠጦች" selected>☕ Drink</option></select>
-            <input type="text"   class="item-title" placeholder="Item name" value="ቡና" />
-            <input type="number" class="item-cost"  placeholder="Price"     value="35" />
-            <button class="btn-remove-row" onclick="removeRow(this)">✕</button>
-          </div>
-        </div>
-
-        <button class="btn btn-ghost" onclick="addRow()">＋ &nbsp;Add Item</button>
-      </div>
-
-      <div class="section-label">03 — Generate QR</div>
-      <button class="btn btn-primary" onclick="generateMenuQR()">⚡ &nbsp;Generate QR Code</button>
-
-      <div class="qr-output" id="qrOutputSection">
-        <div class="qr-label">Your QR Code is Ready!</div>
-        <div class="qr-sublabel">Print &amp; place on your table. Customers scan → menu appears.</div>
-        <div id="qrcode"></div>
-        <div style="margin-top:16px;">
-          <button class="btn btn-sage" onclick="downloadQRCode()">💾 &nbsp;Download PNG</button>
-        </div>
-      </div>
-
+    <div class="features-strip">
+      <div class="feat"><div class="feat-icon">🔒</div> Data inside QR — never uploaded</div>
+      <div class="feat"><div class="feat-icon">🆓</div> Free on GitHub Pages</div>
+      <div class="feat"><div class="feat-icon">📱</div> Instant mobile menu on scan</div>
+      <div class="feat"><div class="feat-icon">🇪🇹</div> Full Amharic support</div>
+      <div class="feat"><div class="feat-icon">🖨</div> Print-ready QR PNG</div>
     </div>
 
-    <!-- RIGHT: Preview -->
-    <div class="preview-col">
-      <div class="section-label">Live Preview</div>
-      <div class="preview-inner">
-        <div class="phone-shell">
-          <div class="phone-screen" id="phonePreview">
+  </div><!-- /builderView -->
 
-            <div class="menu-header">
-              <div class="menu-header-name" id="prevName">የእርስዎ ሬስቶራንት</div>
-              <div class="menu-header-divider"></div>
-              <div class="menu-header-tagline">የዋጋ ዝርዝር · Menu &amp; Prices</div>
-            </div>
 
-            <div class="preview-body" id="previewBody"></div>
+  <!-- ══════════════════════════════════
+       CUSTOMER VIEW (shown after scan)
+  ══════════════════════════════════ -->
+  <div id="customerView">
 
-            <div class="menu-footer-preview">
-              <div class="footer-motto" id="prevMotto">ጥራታችን መለያችን ነው!</div>
-              <div class="footer-bank"  id="prevBank">CBE: 1000742728758</div>
-            </div>
+    <!-- Header with restaurant name -->
+    <div class="cv-header">
+      <div class="cv-name" id="cvName"></div>
+      <div class="cv-divider"></div>
+      <div class="cv-tagline">የዋጋ ዝርዝር · Menu &amp; Prices</div>
+    </div>
 
-          </div>
-        </div>
+    <!-- Menu items -->
+    <div class="cv-body" id="cvBody"></div>
+
+    <!-- Motto + Bank -->
+    <div class="cv-footer">
+      <div class="cv-motto" id="cvMotto"></div>
+      <div id="cvBankWrap" style="display:none;">
+        <div class="cv-bank" id="cvBank"></div>
       </div>
     </div>
 
-  </main>
+    <!-- Create Your Own CTA -->
+    <div class="cv-cta">
+      <div class="cv-cta-label">POWERED BY MENUCRAFT ETHIOPIA</div>
+      <a class="cv-cta-btn" id="cvCtaBtn" href="#">
+        🍽 &nbsp;Create Your Own Menu — Free
+      </a>
+    </div>
 
-  <!-- Features — horizontal strip -->
-  <div class="features-strip">
-    <div class="feat"><div class="feat-icon">🔒</div> Data inside QR — never uploaded</div>
-    <div class="feat"><div class="feat-icon">🆓</div> Free on GitHub Pages</div>
-    <div class="feat"><div class="feat-icon">📱</div> Instant mobile menu on scan</div>
-    <div class="feat"><div class="feat-icon">🇪🇹</div> Full Amharic support</div>
-    <div class="feat"><div class="feat-icon">🖨</div> Print-ready QR PNG</div>
-  </div>
+  </div><!-- /customerView -->
+
 
   <script>
     /* ── helpers ── */
     function $(id){ return document.getElementById(id); }
 
+    /* ══════════════════════════════
+       BUILDER FUNCTIONS
+    ══════════════════════════════ */
     function addRow(){
       const c = $('itemsContainer');
       const d = document.createElement('div');
@@ -604,18 +626,12 @@
     }
 
     function updatePreview(){
-      /* -- name (KEY FIX: always read fresh value) -- */
       const name = $('restName').value;
       $('prevName').textContent = name !== '' ? name : 'የእርስዎ ሬስቶራንት';
-
-      /* -- motto -- */
       $('prevMotto').textContent = $('restMotto').value;
-
-      /* -- bank -- */
       const b = $('restBank').value.trim();
       $('prevBank').textContent = b ? 'CBE: ' + b : '';
 
-      /* -- menu items -- */
       const cats   = document.querySelectorAll('.item-cat');
       const titles = document.querySelectorAll('.item-title');
       const costs  = document.querySelectorAll('.item-cost');
@@ -670,8 +686,8 @@
           state.i.push([cats[i].value === 'ምግቦች' ? 1 : 2, el.value.trim(), costs[i].value]);
       });
 
-      const b64  = btoa(unescape(encodeURIComponent(JSON.stringify(state))));
-      const url  = window.location.href.split('?')[0] + '?menu=' + b64;
+      const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(state))));
+      const url = window.location.href.split('?')[0] + '?menu=' + b64;
 
       new QRCode(qrEl, {
         text: url, width: 220, height: 220,
@@ -703,34 +719,78 @@
       setTimeout(()=> t.classList.remove('show'), 3000);
     }
 
-    /* ── URL decode (customer view) ── */
+    /* ══════════════════════════════
+       CUSTOMER VIEW — render menu
+    ══════════════════════════════ */
+    function renderCustomerView(data){
+      /* hide builder, show customer view */
+      $('builderView').style.display  = 'none';
+      $('customerView').style.display = 'flex';
+      document.title = (data.n || 'Menu') + ' — MenuCraft Ethiopia';
+
+      /* name */
+      $('cvName').textContent = data.n || 'የእርስዎ ሬስቶራንት';
+
+      /* motto */
+      $('cvMotto').textContent = data.m || '';
+
+      /* bank */
+      const bankEl = $('cvBank');
+      const bankWrap = $('cvBankWrap');
+      if(data.b && data.b.trim()){
+        bankEl.textContent = '🏦 CBE: ' + data.b.trim();
+        bankWrap.style.display = 'block';
+      }
+
+      /* items */
+      const map = {};
+      (data.i || []).forEach(item => {
+        const cat = item[0] === 1 ? 'ምግቦች' : 'መጠጦች';
+        if(!map[cat]) map[cat] = [];
+        map[cat].push({ name: item[1], price: item[2] });
+      });
+
+      const body = $('cvBody');
+      body.innerHTML = '';
+      Object.entries(map).forEach(([cat, items]) => {
+        body.innerHTML += `
+          <div class="cv-cat-header">
+            <div class="cv-cat-line"></div>
+            <div class="cv-cat-label">${cat}</div>
+            <div class="cv-cat-line"></div>
+          </div>`;
+        items.forEach(item => {
+          body.innerHTML += `
+            <div class="cv-item">
+              <span class="cv-item-name">${item.name}</span>
+              <span class="cv-item-price">${item.price ? item.price + ' ብር' : '—'}</span>
+            </div>`;
+        });
+      });
+
+      /* CTA link → base URL (no ?menu param) */
+      $('cvCtaBtn').href = window.location.href.split('?')[0];
+    }
+
+    /* ══════════════════════════════
+       INIT
+    ══════════════════════════════ */
     window.onload = function(){
       const p = new URLSearchParams(window.location.search).get('menu');
       if(p){
+        /* ── CUSTOMER MODE ── */
         try{
-          const d = JSON.parse(decodeURIComponent(escape(atob(p))));
-          $('restName').value  = d.n || '';
-          $('restMotto').value = d.m || '';
-          $('restBank').value  = d.b || '';
-          const c = $('itemsContainer');
-          c.innerHTML = '';
-          (d.i || []).forEach(item => {
-            const isF = item[0] === 1;
-            const row = document.createElement('div');
-            row.className = 'menu-row';
-            row.innerHTML = `
-              <select class="item-cat">
-                <option value="ምግቦች" ${isF?'selected':''}>🍲 Food</option>
-                <option value="መጠጦች" ${!isF?'selected':''}>☕ Drink</option>
-              </select>
-              <input type="text"   class="item-title" value="${item[1]||''}" />
-              <input type="number" class="item-cost"  value="${item[2]||''}" />
-              <button class="btn-remove-row" onclick="removeRow(this)">✕</button>`;
-            c.appendChild(row);
-          });
-        }catch(e){ console.error(e); }
+          const data = JSON.parse(decodeURIComponent(escape(atob(p))));
+          renderCustomerView(data);
+        } catch(e){
+          console.error('Menu parse error:', e);
+          /* fallback: just show builder */
+          updatePreview();
+        }
+      } else {
+        /* ── BUILDER MODE ── */
+        updatePreview();
       }
-      updatePreview();
     };
   </script>
 </body>
