@@ -20,7 +20,7 @@ A beautifully designed, client-side web application that lets restaurant and caf
 
 ---
 
-**[Launch Live Portfolio 🚀](https://aychew1229.github.io/PersonalPortfolio/)**
+**[Launch Live Portfolio 🚀](https://aychew1229.github.io/menu-builder/)**
 ---
 
 ## 🙋 FAQ
