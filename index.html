@@ -10,7 +10,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <style>
-    /* ── Tokens ── */
     :root {
       --ink:    #0e0b08;
       --paper:  #faf7f2;
@@ -36,30 +35,21 @@
       overflow-x: hidden;
     }
 
-    /* ══════════════════════════════════════
-       BUILDER MODE BODY
-    ══════════════════════════════════════ */
     body.builder-mode {
       background: var(--ink);
       color: var(--paper);
     }
-
     body.builder-mode::before {
       content: '';
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       background-size: 200px;
     }
-
-    /* ══════════════════════════════════════
-       CUSTOMER MODE BODY
-    ══════════════════════════════════════ */
     body.customer-mode {
       background: var(--paper);
       color: var(--ink);
     }
 
-    /* ── Header ── */
     .site-header {
       position: relative; z-index: 2;
       display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
@@ -80,7 +70,6 @@
       border: 1px solid var(--border); padding: 4px 12px; border-radius: 100px; white-space: nowrap;
     }
 
-    /* ── Hero ── */
     .hero { position: relative; z-index: 1; text-align: center; padding: 52px 20px 36px; }
     .hero-eyebrow {
       display: inline-block; font-size: 10px; font-weight: 600;
@@ -94,7 +83,6 @@
     .hero h1 em { font-style: italic; color: var(--gold); }
     .hero-sub { max-width: 500px; margin: 0 auto; color: var(--muted); font-size: 14px; line-height: 1.8; }
 
-    /* ── Workspace ── */
     .workspace {
       position: relative; z-index: 1;
       display: grid; grid-template-columns: 1fr 380px; gap: 0;
@@ -139,7 +127,6 @@
     .field select option { background: #1a1410; color: var(--paper); }
     .fields-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-    /* ── Menu Rows ── */
     .menu-items-wrap { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
     .menu-row {
       display: grid; grid-template-columns: 110px 1fr 84px 34px;
@@ -168,7 +155,6 @@
     }
     .btn-remove-row:hover { background: rgba(139,46,15,0.5); color: #fff; }
 
-    /* ── Buttons ── */
     .btn {
       cursor: pointer; border: none; border-radius: 9px;
       font-family: 'DM Sans', sans-serif; font-weight: 600;
@@ -194,7 +180,6 @@
     }
     .btn-sage:hover { transform: translateY(-1px); }
 
-    /* ── QR Output ── */
     .qr-output {
       display: none; margin-top: 18px;
       background: linear-gradient(135deg, rgba(200,153,58,0.08), rgba(139,46,15,0.05));
@@ -216,7 +201,6 @@
       box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 8px 24px rgba(0,0,0,0.4);
     }
 
-    /* ── Preview col ── */
     .preview-col {
       padding: 32px 0 32px 24px;
       display: flex; flex-direction: column; align-items: center;
@@ -241,7 +225,6 @@
     }
     .phone-screen::-webkit-scrollbar { display: none; }
 
-    /* ── Shared menu UI ── */
     .menu-header {
       background: linear-gradient(160deg, var(--rust) 0%, #5c1309 100%);
       padding: 44px 16px 22px; text-align: center; position: relative; overflow: hidden;
@@ -291,7 +274,6 @@
       background: var(--cream); padding: 4px 10px; border-radius: 5px; display: inline-block;
     }
 
-    /* ── Features strip ── */
     .features-strip {
       position: relative; z-index: 1;
       display: flex; flex-wrap: wrap; gap: 12px 24px;
@@ -306,7 +288,6 @@
       display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
 
-    /* ── Toast ── */
     .toast {
       position: fixed; bottom: 24px; left: 50%;
       transform: translateX(-50%) translateY(70px);
@@ -322,16 +303,13 @@
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: rgba(200,153,58,0.3); border-radius: 10px; }
 
-    /* ════════════════════════════════════════
-       CUSTOMER VIEW — full page menu
-    ════════════════════════════════════════ */
+    /* ── CUSTOMER VIEW ── */
     #customerView {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
 
-    /* Customer header */
     .cv-header {
       background: linear-gradient(160deg, var(--rust) 0%, #5c1309 100%);
       padding: 56px 24px 32px;
@@ -349,7 +327,6 @@
     .cv-divider { width: 48px; height: 2px; background: var(--goldlt); margin: 14px auto; border-radius: 2px; }
     .cv-tagline { font-size: 12px; color: rgba(255,255,255,0.6); letter-spacing: 0.1em; position: relative; }
 
-    /* Menu body */
     .cv-body {
       flex: 1;
       max-width: 560px; width: 100%; margin: 0 auto;
@@ -380,7 +357,6 @@
       white-space: nowrap; flex-shrink: 0;
     }
 
-    /* Footer */
     .cv-footer {
       max-width: 560px; width: 100%; margin: 0 auto;
       padding: 20px 20px 12px;
@@ -398,13 +374,16 @@
       letter-spacing: 0.04em;
     }
 
-    /* "Create Your Own" CTA */
+    /* ── Back / Create CTA ── */
     .cv-cta {
       max-width: 560px; width: 100%; margin: 0 auto;
       padding: 24px 20px 48px;
       text-align: center;
     }
-    .cv-cta-label { font-size: 11px; color: #aaa; letter-spacing: 0.08em; margin-bottom: 12px; }
+    .cv-cta-label {
+      font-size: 11px; color: #aaa; letter-spacing: 0.08em;
+      text-transform: uppercase; margin-bottom: 12px;
+    }
     .cv-cta-btn {
       display: inline-flex; align-items: center; gap: 8px;
       background: linear-gradient(135deg, var(--ink), #2a1e10);
@@ -417,9 +396,7 @@
     }
     .cv-cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.3); }
 
-    /* ════════════════════════════════════════
-       RESPONSIVE
-    ════════════════════════════════════════ */
+    /* ── RESPONSIVE ── */
     @media (max-width: 860px) {
       .workspace { grid-template-columns: 1fr; padding: 0 16px; }
       .builder { padding: 24px 0 0 0; }
@@ -451,9 +428,7 @@
 
   <div class="toast" id="toast">✅ Done!</div>
 
-  <!-- ══════════════════════════════════
-       BUILDER VIEW
-  ══════════════════════════════════ -->
+  <!-- BUILDER VIEW -->
   <div id="builderView" style="display:none;">
 
     <header class="site-header">
@@ -472,7 +447,6 @@
 
     <main class="workspace">
 
-      <!-- Left: Builder -->
       <div class="builder">
 
         <div class="section-label">01 — Restaurant Details</div>
@@ -568,9 +542,7 @@
   </div><!-- /builderView -->
 
 
-  <!-- ══════════════════════════════════
-       CUSTOMER VIEW (shown after scan)
-  ══════════════════════════════════ -->
+  <!-- CUSTOMER VIEW -->
   <div id="customerView" style="display:none;">
 
     <div class="cv-header">
@@ -588,8 +560,9 @@
       </div>
     </div>
 
+    <!-- CTA: Create your own menu -->
     <div class="cv-cta">
-      <div class="cv-cta-label">POWERED BY MENUCRAFT ETHIOPIA</div>
+      <div class="cv-cta-label">Powered by MenuCraft Ethiopia</div>
       <a class="cv-cta-btn" id="cvCtaBtn" href="#">
         🍽 &nbsp;Create Your Own Menu — Free
       </a>
@@ -600,6 +573,36 @@
 
   <script>
     function $(id){ return document.getElementById(id); }
+
+    /* ══════════════════════════════════════════════
+       ENCODING HELPERS — Unicode-safe base64
+       Uses TextEncoder/TextDecoder (all modern browsers
+       including Android Chrome) instead of the broken
+       escape()/unescape() pair.
+    ══════════════════════════════════════════════ */
+    function encodeData(obj) {
+      const json   = JSON.stringify(obj);
+      const bytes  = new TextEncoder().encode(json);
+      let   binary = '';
+      bytes.forEach(b => binary += String.fromCharCode(b));
+      // btoa is safe now because input is pure binary (Latin-1 range)
+      return btoa(binary)
+        .replace(/\+/g, '-')   // URL-safe base64
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+    }
+
+    function decodeData(str) {
+      // Restore URL-safe base64 to standard
+      str = str.replace(/-/g, '+').replace(/_/g, '/');
+      // Pad if needed
+      while (str.length % 4) str += '=';
+      const binary = atob(str);
+      const bytes  = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+      const json = new TextDecoder('utf-8').decode(bytes);
+      return JSON.parse(json);
+    }
 
     /* ══════════════════════════════
        BUILDER FUNCTIONS
@@ -672,12 +675,10 @@
       const qrEl = $('qrcode');
       qrEl.innerHTML = '';
 
-      const bankVal = $('restBank').value.trim();
-
       const state = {
         n: $('restName').value,
         m: $('restMotto').value,
-        b: bankVal,      /* always included, even if empty string */
+        b: $('restBank').value.trim(),
         i: []
       };
 
@@ -689,8 +690,10 @@
           state.i.push([cats[i].value === 'ምግቦች' ? 1 : 2, el.value.trim(), costs[i].value]);
       });
 
-      const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(state))));
-      const url = window.location.href.split('?')[0] + '?menu=' + b64;
+      // Use the new Unicode-safe encoder
+      const encoded = encodeData(state);
+      const baseUrl = window.location.href.split('?')[0];
+      const url     = baseUrl + '?menu=' + encoded;
 
       new QRCode(qrEl, {
         text: url, width: 220, height: 220,
@@ -726,30 +729,23 @@
        CUSTOMER VIEW — render menu
     ══════════════════════════════ */
     function renderCustomerView(data){
-      /* Switch body class for correct background/colors */
       document.body.classList.add('customer-mode');
 
-      /* Show ONLY customer view — hide everything else */
       $('builderView').style.display  = 'none';
       $('customerView').style.display = 'flex';
 
       document.title = (data.n || 'Menu') + ' — MenuCraft Ethiopia';
 
-      /* Restaurant name */
-      $('cvName').textContent = data.n || 'የእርስዎ ሬስቶራንት';
-
-      /* Motto */
+      $('cvName').textContent  = data.n || 'የእርስዎ ሬስቶራንት';
       $('cvMotto').textContent = data.m || '';
 
-      /* Bank account — show if present */
       if(data.b && data.b.trim()){
-        $('cvBank').textContent = '🏦 CBE: ' + data.b.trim();
-        $('cvBankWrap').style.display = 'block';
+        $('cvBank').textContent        = '🏦 CBE: ' + data.b.trim();
+        $('cvBankWrap').style.display  = 'block';
       } else {
-        $('cvBankWrap').style.display = 'none';
+        $('cvBankWrap').style.display  = 'none';
       }
 
-      /* Group items by category */
       const map = {};
       (data.i || []).forEach(item => {
         const cat = item[0] === 1 ? 'ምግቦች' : 'መጠጦች';
@@ -775,7 +771,7 @@
         });
       });
 
-      /* CTA link → base URL (no ?menu param) */
+      // CTA goes back to builder (strip ?menu param)
       $('cvCtaBtn').href = window.location.href.split('?')[0];
     }
 
@@ -785,19 +781,17 @@
     window.onload = function(){
       const p = new URLSearchParams(window.location.search).get('menu');
       if(p){
-        /* ── CUSTOMER MODE ── */
         try{
-          const data = JSON.parse(decodeURIComponent(escape(atob(p))));
+          const data = decodeData(p);
           renderCustomerView(data);
         } catch(e){
           console.error('Menu parse error:', e);
-          /* fallback: show builder */
+          // Fallback: show builder
           document.body.classList.add('builder-mode');
           $('builderView').style.display = 'block';
           updatePreview();
         }
       } else {
-        /* ── BUILDER MODE ── */
         document.body.classList.add('builder-mode');
         $('builderView').style.display = 'block';
         updatePreview();
